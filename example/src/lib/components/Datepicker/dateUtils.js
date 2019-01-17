@@ -25,8 +25,14 @@ export function dateTimeFormat(locale, options) {
   );
 
   this.format = function(date) {
+    var string = 'th';
+    switch (date.getDate()) {
+      case 1: string = 'st';break;
+      case 2: string = 'nd';break;
+      case 3: string = 'rd';break;
+    }
     if (options.month === 'short' && options.day === '2-digit' && options.year === 'numeric') {
-      return `${date.getDate()} ${monthList[date.getMonth()]} ${date.getFullYear()}`;
+      return `${date.getDate()}${string} ${monthList[date.getMonth()]} ${date.getFullYear()}`;
     } else if (options.year === 'numeric' && options.month === 'numeric' && options.day === 'numeric') {
       return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
     } else if (options.year === 'numeric' && options.month === 'long') {
