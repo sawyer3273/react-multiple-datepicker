@@ -120,11 +120,15 @@ function (_Component) {
       });
     };
 
-    var def = props.selected || new Date();
+    var def = new Date(props.selected) || new Date();
+    var selected = [];
+    props.selected.forEach(function (date) {
+      selected.push(new Date(date));
+    });
     _this.state = {
       view: _utils.default.clone(def),
       selected: _utils.default.clone(def),
-      selectedDates: props.selected ? [_utils.default.clone(def)] : [],
+      selectedDates: props.selected ? selected : [],
       minDate: null,
       maxDate: null,
       open: false

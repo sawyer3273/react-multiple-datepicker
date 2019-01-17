@@ -70,12 +70,16 @@ const DialogContent = styled.div`
 class DatePicker extends Component {
   constructor(props) {
     super(props);
-    const def = props.selected || new Date();
+    var def = new Date(props.selected) || new Date();
+    var selected = [];
+    props.selected.forEach(date => {
+      selected.push(new Date(date))
+    })
 
     this.state = {
       view: DateUtilities.clone(def),
       selected: DateUtilities.clone(def),
-      selectedDates: props.selected ? [DateUtilities.clone(def)] : [],
+      selectedDates: props.selected ? selected : [],
       minDate: null,
       maxDate: null,
       open: false,
