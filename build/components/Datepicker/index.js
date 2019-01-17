@@ -136,11 +136,43 @@ function (_Component) {
     key: "render",
     value: function render() {
       var children = this.props.children;
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      var valueString = '';
+      var dates = [];
+      var sorted = this.state.selectedDates.sort(function (a, b) {
+        return new Date(a) - new Date(b);
+      });
+      sorted.forEach(function (date) {
+        dates[date.getMonth()] ? dates[date.getMonth()].push(date) : dates[date.getMonth()] = [date];
+      });
+      dates.forEach(function (month, j) {
+        month.forEach(function (date, i) {
+          var day = date.getDate();
+          var string = 'th';
+
+          switch (day) {
+            case 1:
+              string = 'st';
+              break;
+
+            case 2:
+              string = 'nd';
+              break;
+
+            case 3:
+              string = 'rd';
+              break;
+          }
+
+          var semicolon = month.length == i + 1 ? ' ' : month.length == i + 2 ? ' and ' : ', ';
+          valueString += day + string + semicolon;
+        });
+        var semicolon = dates.length == j + 1 ? '' : ', ';
+        valueString += monthNames[month[0].getMonth()] + semicolon;
+      });
       return _react.default.createElement("div", null, children ? _react.default.cloneElement(_react.default.Children.only(children), {
         onClick: this.toggleOpen,
-        value: this.state.selectedDates.map(function (date) {
-          return _utils.default.toString(date);
-        }).join(', '),
+        value: valueString,
         readOnly: true
       }) : _react.default.createElement("input", {
         type: "text",

@@ -132,12 +132,38 @@ class DatePicker extends Component {
   render() {
     const { children } = this.props;
 
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    var valueString = '';
+    var dates = [];
+    var sorted = this.state.selectedDates.sort(function(a,b){
+      return new Date(a) - new Date(b);
+    });
+    sorted.forEach(date => {
+      dates[date.getMonth()] ? dates[date.getMonth()].push(date) : dates[date.getMonth()] = [date]
+    })
+    dates.forEach((month, j)=> {
+      month.forEach((date, i) => {
+        var day = date.getDate();
+        var string = 'th';
+        switch (day) {
+          case 1: string = 'st';break;
+          case 2: string = 'nd';break;
+          case 3: string = 'rd';break;
+        }
+        var semicolon = month.length == i+1 ? ' ' : month.length == i+2 ? ' and ' : ', ';
+        valueString += day+string+semicolon
+      })
+      var semicolon = dates.length == j+1 ? '' : ', '
+      valueString += monthNames[month[0].getMonth()]+semicolon
+    })
     return (
       <div>
         {children ? (
           React.cloneElement(React.Children.only(children), {
             onClick: this.toggleOpen,
-            value: this.state.selectedDates.map(date => DateUtilities.toString(date)).join(', '),
+            value: valueString,
             readOnly: true,
           })
         ) : (
