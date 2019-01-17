@@ -37,8 +37,24 @@ function dateTimeFormat(locale, options) {
   (0, _warning.default)(locale === 'en-US', "Material-UI: The ".concat(locale, " locale is not supported by the built-in DateTimeFormat.\n  Use the `DateTimeFormat` prop to supply an alternative implementation."));
 
   this.format = function (date) {
+    var string = 'th';
+
+    switch (date.getDate()) {
+      case 1:
+        string = 'st';
+        break;
+
+      case 2:
+        string = 'nd';
+        break;
+
+      case 3:
+        string = 'rd';
+        break;
+    }
+
     if (options.month === 'short' && options.day === '2-digit' && options.year === 'numeric') {
-      return "".concat(date.getDate(), " ").concat(monthList[date.getMonth()], " ").concat(date.getFullYear());
+      return "".concat(date.getDate()).concat(string, " ").concat(monthList[date.getMonth()], " ").concat(date.getFullYear());
     } else if (options.year === 'numeric' && options.month === 'numeric' && options.day === 'numeric') {
       return "".concat(date.getMonth() + 1, "/").concat(date.getDate(), "/").concat(date.getFullYear());
     } else if (options.year === 'numeric' && options.month === 'long') {
