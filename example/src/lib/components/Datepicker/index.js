@@ -97,6 +97,16 @@ class DatePicker extends Component {
     }
   };
 
+  onSetValue = (dates) => {
+    let selected = [];
+    dates.forEach(function (date) {
+      selected.push(new Date(date));
+    });
+    this.setState({
+      selectedDates: selected
+    });
+  };
+
   onSubmit = () => {};
 
   toggleOpen = () => {

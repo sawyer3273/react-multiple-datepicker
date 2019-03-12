@@ -23,9 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -64,61 +64,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, (DatePicker.__proto__ || Object.getPrototypeOf(DatePicker)).call(this, props));
 
-    _this.onSelect = function (day) {
-      var selectedDates = _this.state.selectedDates;
-
-      if (_utils.default.dateIn(selectedDates, day)) {
-        _this.setState({
-          selectedDates: selectedDates.filter(function (date) {
-            return !_utils.default.isSameDay(date, day);
-          })
-        });
-      } else {
-        _this.setState({
-          selectedDates: [].concat(_toConsumableArray(selectedDates), [day])
-        });
-      }
-    };
-
-    _this.onSubmit = function () {};
-
-    _this.toggleOpen = function () {
-      _this.setState({
-        open: !_this.state.open
-      });
-    };
-
-    _this.handleCancel = function (e) {
-      e.preventDefault();
-
-      _this.dismiss();
-    };
-
-    _this.handleRequestClose = function () {
-      _this.dismiss();
-    };
-
-    _this.handleOk = function (e) {
-      e.preventDefault();
-
-      if (_this.props.onSubmit) {
-        _this.props.onSubmit(_this.state.selectedDates);
-      }
-
-      _this.setState({
-        open: false
-      });
-    };
-
-    _this.dismiss = function () {
-      if (_this.props.onDismiss && _this.state.open) {
-        _this.props.onDismiss();
-      }
-
-      _this.setState({
-        open: false
-      });
-    };
+    _initialiseProps.call(_this);
 
     var def = new Date(props.selected) || new Date();
     var selected = [];
@@ -203,6 +149,77 @@ function (_Component) {
 
   return DatePicker;
 }(_react.Component);
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.onSelect = function (day) {
+    var selectedDates = _this2.state.selectedDates;
+
+    if (_utils.default.dateIn(selectedDates, day)) {
+      _this2.setState({
+        selectedDates: selectedDates.filter(function (date) {
+          return !_utils.default.isSameDay(date, day);
+        })
+      });
+    } else {
+      _this2.setState({
+        selectedDates: [].concat(_toConsumableArray(selectedDates), [day])
+      });
+    }
+  };
+
+  this.onSetValue = function (dates) {
+    var selected = [];
+    dates.forEach(function (date) {
+      selected.push(new Date(date));
+    });
+
+    _this2.setState({
+      selectedDates: selected
+    });
+  };
+
+  this.onSubmit = function () {};
+
+  this.toggleOpen = function () {
+    _this2.setState({
+      open: !_this2.state.open
+    });
+  };
+
+  this.handleCancel = function (e) {
+    e.preventDefault();
+
+    _this2.dismiss();
+  };
+
+  this.handleRequestClose = function () {
+    _this2.dismiss();
+  };
+
+  this.handleOk = function (e) {
+    e.preventDefault();
+
+    if (_this2.props.onSubmit) {
+      _this2.props.onSubmit(_this2.state.selectedDates);
+    }
+
+    _this2.setState({
+      open: false
+    });
+  };
+
+  this.dismiss = function () {
+    if (_this2.props.onDismiss && _this2.state.open) {
+      _this2.props.onDismiss();
+    }
+
+    _this2.setState({
+      open: false
+    });
+  };
+};
 
 var _default = DatePicker;
 exports.default = _default;
